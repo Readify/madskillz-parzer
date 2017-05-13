@@ -42,7 +42,7 @@ def main():
             active_ws = wb.create_sheet(0)
             row_number = 1
             active_ws.add_data_validation(data_validation)
-            active_ws.title = line.strip('#') # normaliseLine(line)
+            active_ws.title = line.strip('#')
             line = line.strip('#')
             change_cell_value(row_number, 1, active_ws, line)
             change_cell_style_header(row_number, 1, active_ws)
