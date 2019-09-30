@@ -2,7 +2,7 @@ Once you've setup your environment with [VirtualEnvWrapper](https://virtualenvwr
 
 ```bash
 $ mkvirtualenv madskillz-parzer
-$ pip install -r requirements.txt
+$ pip3 install -r requirements.txt
 ```
 
 This parses the [Readify MadSkillz](https://github.com/Readify/madskillz) md file.

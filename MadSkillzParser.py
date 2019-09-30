@@ -1,15 +1,15 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import sys
 import logging
 from openpyxl import Workbook
 from openpyxl.styles import Font, Fill
 from openpyxl.worksheet.datavalidation import DataValidation
-import urllib2
+from urllib.request import urlopen
 import re
 
 def import_file_from_readify_github():
     logging.info('Getting latest Consulting.md...')
-    response = urllib2.urlopen('https://raw.githubusercontent.com/Readify/madskillz/master/Consulting.md')
+    response = urlopen('https://raw.githubusercontent.com/Readify/madskillz/master/Development.md')
     logging.info('Getting latest Consulting.md...Done!')
     return response
 
@@ -22,12 +22,17 @@ def change_cell_style_header(row, column, ws):
 def change_cell_style_role_description(row, column, ws):
     ws.cell(row = row, column = column).font = Font(size = 13)
 
+def get_role():
+    roles = ("DataAndAnalytics", "Development", "Engineering", "InnovationAndDesign", "Managed Services", "ProgramManager")
+    return input("Enter Role " + str(roles) + ": ")
+
 def main():
+    role = get_role()
+    print (role)
     filename = 'MadSkillz.xlsx'
     role_pattern = '^## .+'
     role_description_pattern = '>.+'
     behaviour_pattern = '^- .+'
-    behaviour_description_pattern = '^#### .+'
     row_number = 0
     wb = Workbook()
     active_ws = wb.active
