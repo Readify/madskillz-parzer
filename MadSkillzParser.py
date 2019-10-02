@@ -7,10 +7,10 @@ from openpyxl.worksheet.datavalidation import DataValidation
 from urllib.request import urlopen
 import re
 
-def import_file_from_readify_github():
-    logging.info('Getting latest Consulting.md...')
-    response = urlopen('https://raw.githubusercontent.com/Readify/madskillz/master/Development.md')
-    logging.info('Getting latest Consulting.md...Done!')
+def import_file_from_readify_github(area):
+    logging.info(f'Getting latest {area}.md...')
+    response = urlopen(f'https://raw.githubusercontent.com/Readify/madskillz/master/{area}.md')
+    logging.info(f'Getting latest {area}.md...Done!')
     return response
 
 def change_cell_value(row, column, ws, value):
@@ -22,13 +22,14 @@ def change_cell_style_header(row, column, ws):
 def change_cell_style_role_description(row, column, ws):
     ws.cell(row = row, column = column).font = Font(size = 13)
 
-def get_role():
-    roles = ("DataAndAnalytics", "Development", "Engineering", "InnovationAndDesign", "Managed Services", "ProgramManager")
-    return input("Enter Role " + str(roles) + ": ")
+def get_area():
+    areas = ["DataAndAnalytics", "Development", "Engineering", "InnovationAndDesign", "Managed Services", "ProgramManager"]
+    msg = " ".join(str(idx + 1) + "." + x for idx,x in enumerate(areas))
+    selection = input(f"Select Area (1-{len(areas)}) " + msg + ": ")
+    return areas[int(selection) - 1]
 
 def main():
-    role = get_role()
-    print (role)
+    area = get_area()
     filename = 'MadSkillz.xlsx'
     role_pattern = '^## .+'
     role_description_pattern = '>.+'
@@ -37,7 +38,7 @@ def main():
     wb = Workbook()
     active_ws = wb.active
     data_validation = DataValidation(type="list", formula1='"Cannot Assess,Need Coaching,Maturing,No Brainer,Outstanding"', allow_blank=False)
-    f = import_file_from_readify_github()
+    f = import_file_from_readify_github(area)
     logging.info('Parsing...')
     for line in f:
         line = line.decode('unicode-escape')
